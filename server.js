@@ -12,11 +12,7 @@ const PORT = process.env.PORT || 3000;
 
 // Check DATABASE_URL
 if (!process.env.DATABASE_URL) {
-  console.error('========================================');
-  console.error('ERROR: DATABASE_URL environment variable is not set.');
-  console.error('Please copy .env.example to .env and fill in your PostgreSQL connection string.');
-  console.error('Example: DATABASE_URL=postgresql://user:password@localhost:5432/survey3');
-  console.error('========================================');
+  console.error('ERROR: DATABASE_URL is not set. Please add PostgreSQL to your Railway project and link it.');
   process.exit(1);
 }
 
