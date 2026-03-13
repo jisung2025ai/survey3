@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>유아 디지털 역량 설문지</title>
+  <link rel="stylesheet" href="/css/survey.css" />
+  <style>
+    body {
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      background: #EEF4FF;
+    }
+    .landing-card {
+      background: #fff;
+      border-radius: 16px;
+      box-shadow: 0 4px 24px rgba(59,130,246,0.10);
+      padding: 48px 40px 36px;
+      max-width: 480px;
+      width: 100%;
+      text-align: center;
+    }
+    .landing-card h1 {
+      color: #1E3A8A;
+      font-size: 1.7rem;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    .landing-card .subtitle {
+      color: #4B6CB7;
+      font-size: 0.95rem;
+      margin-bottom: 32px;
+      line-height: 1.6;
+      background: #EEF4FF;
+      border-radius: 8px;
+      padding: 12px 16px;
+      text-align: left;
+    }
+    .form-group {
+      margin-bottom: 18px;
+      text-align: left;
+    }
+    .form-group label {
+      display: block;
+      font-weight: 600;
+      color: #374151;
+      margin-bottom: 6px;
+      font-size: 0.95rem;
+    }
+    .form-group input {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1.5px solid #BFDBFE;
+      border-radius: 8px;
+      font-size: 1rem;
+      box-sizing: border-box;
+      transition: border-color 0.2s;
+      background: #F8FBFF;
+    }
+    .form-group input:focus {
+      outline: none;
+      border-color: #3B82F6;
+      background: #fff;
+    }
+    .btn-start {
+      width: 100%;
+      padding: 14px;
+      background: #3B82F6;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      margin-top: 8px;
+      transition: background 0.2s;
+    }
+    .btn-start:hover {
+      background: #2563EB;
+    }
+    .admin-link {
+      display: block;
+      margin-top: 28px;
+      color: #9CA3AF;
+      font-size: 0.82rem;
+      text-decoration: none;
+    }
+    .admin-link:hover {
+      color: #6B7280;
+    }
+    .error-msg {
+      color: #DC2626;
+      font-size: 0.88rem;
+      margin-top: 8px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="landing-card">
+    <h1>유아 디지털 역량 설문지</h1>
+    <div class="subtitle">
+      ※ 다음 문항들은 유아의 디지털 역량을 알아보기 위한 것입니다.<br />
+      담임 선생님이 각 유아를 관찰하여 응답해 주시기 바랍니다.
+    </div>
+    <form id="sessionForm">
+      <div class="form-group">
+        <label for="phone">교사 전화번호</label>
+        <input type="text" id="phone" name="phone" placeholder="010-0000-0000" required />
+      </div>
+      <div class="form-group">
+        <label for="class_name">반 이름</label>
+        <input type="text" id="class_name" name="class_name" placeholder="예: 사랑반" />
+      </div>
+      <div class="error-msg" id="errorMsg"></div>
+      <button type="submit" class="btn-start">설문 시작하기</button>
+    </form>
+    <a href="/admin" class="admin-link">관리자 페이지</a>
+  </div>
+
+  <script>
+    document.getElementById('sessionForm').addEventListener('submit', async function(e) {
+      e.preventDefault();
+      const phone = document.getElementById('phone').value.trim();
+      const class_name = document.getElementById('class_name').value.trim();
+      const errorMsg = document.getElementById('errorMsg');
+      errorMsg.style.display = 'none';
+
+      if (!phone) {
+        errorMsg.textContent = '전화번호를 입력해주세요.';
+        errorMsg.style.display = 'block';
+        return;
+      }
+
+      try {
+        const res = await fetch('/api/session', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ phone, class_name })
+        });
+        const data = await res.json();
+        if (data.submission_id) {
+          localStorage.setItem('submission_id', data.submission_id);
+          localStorage.setItem('teacher_phone', phone);
+          localStorage.setItem('class_name', class_name);
+          window.location.href = '/survey';
+        } else {
+          errorMsg.textContent = data.error || '오류가 발생했습니다.';
+          errorMsg.style.display = 'block';
+        }
+      } catch (err) {
+        errorMsg.textContent = '서버 연결에 실패했습니다.';
+        errorMsg.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>

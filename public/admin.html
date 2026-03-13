@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>관리자 페이지 - 유아 디지털 역량 설문</title>
+  <link rel="stylesheet" href="/css/admin.css" />
+</head>
+<body>
+  <!-- Login Section -->
+  <div id="loginSection" class="login-container">
+    <div class="login-card">
+      <h1>관리자 로그인</h1>
+      <p class="login-subtitle">유아 디지털 역량 설문 관리 시스템</p>
+      <form id="loginForm">
+        <div class="form-group">
+          <label for="adminPassword">비밀번호</label>
+          <input type="password" id="adminPassword" placeholder="관리자 비밀번호 입력" required />
+        </div>
+        <div class="error-msg" id="loginError"></div>
+        <button type="submit" class="btn-login">로그인</button>
+      </form>
+      <a href="/" class="back-link">← 설문 페이지로 돌아가기</a>
+    </div>
+  </div>
+
+  <!-- Dashboard Section -->
+  <div id="dashboardSection" class="dashboard" style="display:none;">
+    <div class="dash-header">
+      <h1>유아 디지털 역량 설문 관리</h1>
+      <button class="btn-logout" onclick="logout()">로그아웃</button>
+    </div>
+
+    <!-- Summary Stats -->
+    <div class="stats-row" id="statsRow">
+      <div class="stat-card">
+        <div class="stat-number" id="statTotal">-</div>
+        <div class="stat-label">전체 제출</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statComplete">-</div>
+        <div class="stat-label">완료 제출</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="statIncomplete">-</div>
+        <div class="stat-label">미완료</div>
+      </div>
+    </div>
+
+    <!-- Filter Bar -->
+    <div class="filter-bar">
+      <div class="filter-group">
+        <label>시작일</label>
+        <input type="date" id="filterStart" />
+      </div>
+      <div class="filter-group">
+        <label>종료일</label>
+        <input type="date" id="filterEnd" />
+      </div>
+      <div class="filter-group">
+        <label>전화번호</label>
+        <input type="text" id="filterPhone" placeholder="010-..." />
+      </div>
+      <button class="btn-search" onclick="loadList()">검색</button>
+      <button class="btn-export" onclick="exportCSV()">CSV 내보내기</button>
+    </div>
+
+    <!-- Submissions Table -->
+    <div class="table-container">
+      <table class="submissions-table" id="submissionsTable">
+        <thead>
+          <tr>
+            <th>ID</th>
+            <th>교사 전화번호</th>
+            <th>반 이름</th>
+            <th>제출일시</th>
+            <th>완료 여부</th>
+            <th>응답수</th>
+            <th>상세보기</th>
+          </tr>
+        </thead>
+        <tbody id="submissionsBody">
+        </tbody>
+      </table>
+      <div id="noData" class="no-data" style="display:none;">데이터가 없습니다.</div>
+    </div>
+
+    <!-- Statistics Section -->
+    <div class="stats-section">
+      <h2>문항별 평균 점수</h2>
+      <button class="btn-search" onclick="loadStats()" style="margin-bottom:16px;">통계 불러오기</button>
+      <div id="statsChart" class="stats-chart"></div>
+    </div>
+  </div>
+
+  <!-- Detail Modal -->
+  <div class="modal-overlay" id="detailModal" onclick="closeModal(event)">
+    <div class="modal-box large-modal" onclick="event.stopPropagation()">
+      <div class="modal-header">
+        <h2 id="modalTitle">설문 상세보기</h2>
+        <button class="modal-close" onclick="closeDetailModal()">✕</button>
+      </div>
+      <div id="modalContent" class="modal-content"></div>
+    </div>
+  </div>
+
+  <script src="/js/admin.js"></script>
+</body>
+</html>

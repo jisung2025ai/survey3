@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>유아 디지털 역량 설문지</title>
+  <link rel="stylesheet" href="/css/survey.css" />
+</head>
+<body>
+  <div class="survey-container">
+    <div class="survey-header">
+      <h1>유아 디지털 역량 설문지</h1>
+      <div class="teacher-info" id="teacherInfo"></div>
+    </div>
+
+    <div class="tab-bar" id="tabBar">
+      <button class="tab-btn active" data-slot="boy1" onclick="switchTab('boy1')">
+        <span class="tab-icon" id="icon-boy1">⬜</span> 남아 1
+      </button>
+      <button class="tab-btn" data-slot="boy2" onclick="switchTab('boy2')">
+        <span class="tab-icon" id="icon-boy2">⬜</span> 남아 2
+      </button>
+      <button class="tab-btn" data-slot="girl1" onclick="switchTab('girl1')">
+        <span class="tab-icon" id="icon-girl1">⬜</span> 여아 1
+      </button>
+      <button class="tab-btn" data-slot="girl2" onclick="switchTab('girl2')">
+        <span class="tab-icon" id="icon-girl2">⬜</span> 여아 2
+      </button>
+    </div>
+
+    <div id="tab-boy1" class="tab-content active">
+      <div class="child-header">
+        <div class="child-info-row">
+          <div class="form-group-inline">
+            <label>이름</label>
+            <input type="text" id="name-boy1" class="child-name-input" placeholder="아동 이름" />
+          </div>
+          <div class="form-group-inline">
+            <label>연령</label>
+            <div class="age-radios">
+              <label class="age-label"><input type="radio" name="age-boy1" value="3" /> 만3세</label>
+              <label class="age-label"><input type="radio" name="age-boy1" value="4" /> 만4세</label>
+              <label class="age-label"><input type="radio" name="age-boy1" value="5" /> 만5세</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="questions-container" id="questions-boy1"></div>
+      <div class="save-row">
+        <button class="btn-save" onclick="saveTab('boy1')">임시저장</button>
+        <span class="save-status" id="save-status-boy1"></span>
+      </div>
+    </div>
+
+    <div id="tab-boy2" class="tab-content">
+      <div class="child-header">
+        <div class="child-info-row">
+          <div class="form-group-inline">
+            <label>이름</label>
+            <input type="text" id="name-boy2" class="child-name-input" placeholder="아동 이름" />
+          </div>
+          <div class="form-group-inline">
+            <label>연령</label>
+            <div class="age-radios">
+              <label class="age-label"><input type="radio" name="age-boy2" value="3" /> 만3세</label>
+              <label class="age-label"><input type="radio" name="age-boy2" value="4" /> 만4세</label>
+              <label class="age-label"><input type="radio" name="age-boy2" value="5" /> 만5세</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="questions-container" id="questions-boy2"></div>
+      <div class="save-row">
+        <button class="btn-save" onclick="saveTab('boy2')">임시저장</button>
+        <span class="save-status" id="save-status-boy2"></span>
+      </div>
+    </div>
+
+    <div id="tab-girl1" class="tab-content">
+      <div class="child-header">
+        <div class="child-info-row">
+          <div class="form-group-inline">
+            <label>이름</label>
+            <input type="text" id="name-girl1" class="child-name-input" placeholder="아동 이름" />
+          </div>
+          <div class="form-group-inline">
+            <label>연령</label>
+            <div class="age-radios">
+              <label class="age-label"><input type="radio" name="age-girl1" value="3" /> 만3세</label>
+              <label class="age-label"><input type="radio" name="age-girl1" value="4" /> 만4세</label>
+              <label class="age-label"><input type="radio" name="age-girl1" value="5" /> 만5세</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="questions-container" id="questions-girl1"></div>
+      <div class="save-row">
+        <button class="btn-save" onclick="saveTab('girl1')">임시저장</button>
+        <span class="save-status" id="save-status-girl1"></span>
+      </div>
+    </div>
+
+    <div id="tab-girl2" class="tab-content">
+      <div class="child-header">
+        <div class="child-info-row">
+          <div class="form-group-inline">
+            <label>이름</label>
+            <input type="text" id="name-girl2" class="child-name-input" placeholder="아동 이름" />
+          </div>
+          <div class="form-group-inline">
+            <label>연령</label>
+            <div class="age-radios">
+              <label class="age-label"><input type="radio" name="age-girl2" value="3" /> 만3세</label>
+              <label class="age-label"><input type="radio" name="age-girl2" value="4" /> 만4세</label>
+              <label class="age-label"><input type="radio" name="age-girl2" value="5" /> 만5세</label>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="questions-container" id="questions-girl2"></div>
+      <div class="save-row">
+        <button class="btn-save" onclick="saveTab('girl2')">임시저장</button>
+        <span class="save-status" id="save-status-girl2"></span>
+      </div>
+    </div>
+
+    <div class="submit-section">
+      <div class="submit-notice" id="submitNotice">
+        모든 아동(4명)의 설문을 완료한 후 제출할 수 있습니다.
+      </div>
+      <button class="btn-submit" id="btnSubmit" disabled onclick="submitAll()">전체 제출하기</button>
+    </div>
+  </div>
+
+  <div class="modal-overlay" id="successModal">
+    <div class="modal-box">
+      <div class="modal-icon">✅</div>
+      <h2>제출 완료!</h2>
+      <p>설문이 성공적으로 제출되었습니다.<br />참여해 주셔서 감사합니다.</p>
+      <button onclick="window.location.href='/'" class="btn-start">처음으로 돌아가기</button>
+    </div>
+  </div>
+
+  <script src="/js/survey.js"></script>
+</body>
+</html>
